@@ -31,5 +31,9 @@ targets:
       path: MusicGeneratorRemote/Info.plist
       properties:
         UIBackgroundModes: [audio]
+        # QR-Code aus der Web-App: musicgenerator://connect?server=…&alt=…&token=…
+        CFBundleURLTypes:
+          - CFBundleURLName: de.alphatester.music-generator-remote
+            CFBundleURLSchemes: [musicgenerator]
         NSAppTransportSecurity:
           NSAllowsLocalNetworking: true

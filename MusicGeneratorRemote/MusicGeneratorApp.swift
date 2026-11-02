@@ -1,27 +1,54 @@
 import SwiftUI
 
+enum AppTab: Hashable { case library, generate, connection }
+
 @main
 struct MusicGeneratorApp: App {
     @State private var player = Player()
     @State private var library = Library()
     @State private var showPlayer = false
+    @State private var tab = AppTab.library
 
     var body: some Scene {
         WindowGroup {
-            TabView {
+            TabView(selection: $tab) {
                 LibraryView()
                     .tabItem { Label("Bibliothek", systemImage: "music.note.list") }
+                    .tag(AppTab.library)
                 GenerateView()
                     .tabItem { Label("Erzeugen", systemImage: "wand.and.stars") }
+                    .tag(AppTab.generate)
                 SettingsView()
                     .tabItem { Label("Verbindung", systemImage: "network") }
+                    .tag(AppTab.connection)
             }
             .modifier(PlayerBar(showPlayer: $showPlayer))
             .sheet(isPresented: $showPlayer) { FullPlayer() }
+            .onOpenURL { url in Task { await connect(url) } }
             .environment(player)
             .environment(library)
             .tint(.orange)
         }
+    }
+
+    /// QR-Code aus der Web-App (Setup → Handy-Zugriff), mit der Kamera gescannt:
+    /// übernimmt Schlüssel und die erste erreichbare Adresse (Name im Heimnetz, sonst IP).
+    @MainActor
+    private func connect(_ url: URL) async {
+        guard url.scheme == "musicgenerator", url.host == "connect",
+              let items = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems,
+              let token = items.first(where: { $0.name == "token" })?.value else { return }
+        let candidates = ["server", "alt"].compactMap { name in items.first { $0.name == name }?.value }
+        let d = UserDefaults.standard
+        d.set(token, forKey: "token")
+        var reached = false
+        for server in candidates {
+            d.set(server, forKey: "server")
+            if (try? await APIClient.current.folders()) != nil { reached = true; break }
+        }
+        if !reached, let first = candidates.first { d.set(first, forKey: "server") }   // zum Nachbessern unter „Verbindung“
+        await library.reload()
+        tab = reached ? .library : .connection
     }
 }
 
