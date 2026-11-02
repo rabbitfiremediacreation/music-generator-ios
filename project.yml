@@ -27,6 +27,7 @@ targets:
         INFOPLIST_KEY_NSLocalNetworkUsageDescription: "Die App verbindet sich mit dem Music Generator auf deinem Mac im Heimnetz."
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: TEAMID   # Lee Esposito (Personal Team), App läuft 7 Tage
     info:
       path: MusicGeneratorRemote/Info.plist
       properties:

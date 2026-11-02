@@ -100,6 +100,7 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					ED5C70C88125BE263757BB77 = {
+						DevelopmentTeam = TEAMID;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -218,6 +219,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TEAMID;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MusicGeneratorRemote/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Music Generator";
@@ -306,6 +308,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TEAMID;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MusicGeneratorRemote/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Music Generator";
