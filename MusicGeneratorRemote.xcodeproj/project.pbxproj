@@ -1,0 +1,350 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1E0FA8FA5943DA426C400BCA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7D76602CF5A6416241A043 /* Models.swift */; };
+		31A646FA2F938227CB34B43C /* GenerateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504FC772ACEAE3EA5318332C /* GenerateView.swift */; };
+		61BCA6FF6789FBB02E1918A8 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FEE887E55088F4E523A969 /* LibraryView.swift */; };
+		7513B22C26B5E8623ACAA533 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19171EBD549E580EAAB811B7 /* Assets.xcassets */; };
+		90CB8F72C81B2E4648CAD02D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6058A505F16E9BB0ABF077 /* SettingsView.swift */; };
+		989C0B6F7B44E81AD269BFD0 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826053B7FFDC1E321275E0EF /* APIClient.swift */; };
+		9D895E124916842AB42095A0 /* MusicGeneratorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048C639019C1C1239B1E98E0 /* MusicGeneratorApp.swift */; };
+		9EE4E31E25FE68BD7BE7582F /* PlayerViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A716B5F4A0E8FDD1C7DD57 /* PlayerViews.swift */; };
+		B0C7DC15564358383DC2ADBA /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2A5CB4D803DAB18B36717E /* Library.swift */; };
+		FC31A27677A2CCC755F6EDA5 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236A068B2C23E170F9CF53A8 /* Player.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		048C639019C1C1239B1E98E0 /* MusicGeneratorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicGeneratorApp.swift; sourceTree = "<group>"; };
+		19171EBD549E580EAAB811B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		236A068B2C23E170F9CF53A8 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		31FEE887E55088F4E523A969 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		504FC772ACEAE3EA5318332C /* GenerateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateView.swift; sourceTree = "<group>"; };
+		63A716B5F4A0E8FDD1C7DD57 /* PlayerViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViews.swift; sourceTree = "<group>"; };
+		6CC30B5A87315046FCE30F53 /* MusicGeneratorRemote.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MusicGeneratorRemote.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		826053B7FFDC1E321275E0EF /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		8C2A5CB4D803DAB18B36717E /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
+		AF7D76602CF5A6416241A043 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		BA6058A505F16E9BB0ABF077 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		BD1B0EFC9B67C78DA1FC5199 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		24BC238B68C1242C43351AD5 /* MusicGeneratorRemote */ = {
+			isa = PBXGroup;
+			children = (
+				826053B7FFDC1E321275E0EF /* APIClient.swift */,
+				19171EBD549E580EAAB811B7 /* Assets.xcassets */,
+				504FC772ACEAE3EA5318332C /* GenerateView.swift */,
+				BD1B0EFC9B67C78DA1FC5199 /* Info.plist */,
+				8C2A5CB4D803DAB18B36717E /* Library.swift */,
+				31FEE887E55088F4E523A969 /* LibraryView.swift */,
+				AF7D76602CF5A6416241A043 /* Models.swift */,
+				048C639019C1C1239B1E98E0 /* MusicGeneratorApp.swift */,
+				236A068B2C23E170F9CF53A8 /* Player.swift */,
+				63A716B5F4A0E8FDD1C7DD57 /* PlayerViews.swift */,
+				BA6058A505F16E9BB0ABF077 /* SettingsView.swift */,
+			);
+			path = MusicGeneratorRemote;
+			sourceTree = "<group>";
+		};
+		60859E47C5C21D89516B27FC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6CC30B5A87315046FCE30F53 /* MusicGeneratorRemote.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		80D67011AEF77FE1A3818809 = {
+			isa = PBXGroup;
+			children = (
+				24BC238B68C1242C43351AD5 /* MusicGeneratorRemote */,
+				60859E47C5C21D89516B27FC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		ED5C70C88125BE263757BB77 /* MusicGeneratorRemote */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7DAC81149AA395E02AD6135 /* Build configuration list for PBXNativeTarget "MusicGeneratorRemote" */;
+			buildPhases = (
+				2F09A61981708437FA6A97D1 /* Sources */,
+				0903A02A00BB9EDE050E4587 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MusicGeneratorRemote;
+			packageProductDependencies = (
+			);
+			productName = MusicGeneratorRemote;
+			productReference = 6CC30B5A87315046FCE30F53 /* MusicGeneratorRemote.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BEB0BAB8B4C12657CA03E722 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					ED5C70C88125BE263757BB77 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = E437E33613525094E0B62606 /* Build configuration list for PBXProject "MusicGeneratorRemote" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 80D67011AEF77FE1A3818809;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 60859E47C5C21D89516B27FC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ED5C70C88125BE263757BB77 /* MusicGeneratorRemote */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0903A02A00BB9EDE050E4587 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7513B22C26B5E8623ACAA533 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2F09A61981708437FA6A97D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				989C0B6F7B44E81AD269BFD0 /* APIClient.swift in Sources */,
+				31A646FA2F938227CB34B43C /* GenerateView.swift in Sources */,
+				B0C7DC15564358383DC2ADBA /* Library.swift in Sources */,
+				61BCA6FF6789FBB02E1918A8 /* LibraryView.swift in Sources */,
+				1E0FA8FA5943DA426C400BCA /* Models.swift in Sources */,
+				9D895E124916842AB42095A0 /* MusicGeneratorApp.swift in Sources */,
+				FC31A27677A2CCC755F6EDA5 /* Player.swift in Sources */,
+				9EE4E31E25FE68BD7BE7582F /* PlayerViews.swift in Sources */,
+				90CB8F72C81B2E4648CAD02D /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		57493ADA1FBEA15570400574 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		680BE0E51AD81CBA32A27181 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MusicGeneratorRemote/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Music Generator";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Die App verbindet sich mit dem Music Generator auf deinem Mac im Heimnetz.";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "de.alphatester.music-generator-remote";
+				PRODUCT_NAME = "Music Generator";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		85745F6EDC292E0C151CA9F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B59A37FE6BD3BEB6C51A506C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MusicGeneratorRemote/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Music Generator";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Die App verbindet sich mit dem Music Generator auf deinem Mac im Heimnetz.";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "de.alphatester.music-generator-remote";
+				PRODUCT_NAME = "Music Generator";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E437E33613525094E0B62606 /* Build configuration list for PBXProject "MusicGeneratorRemote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				85745F6EDC292E0C151CA9F5 /* Debug */,
+				57493ADA1FBEA15570400574 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F7DAC81149AA395E02AD6135 /* Build configuration list for PBXNativeTarget "MusicGeneratorRemote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				680BE0E51AD81CBA32A27181 /* Debug */,
+				B59A37FE6BD3BEB6C51A506C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BEB0BAB8B4C12657CA03E722 /* Project object */;
+}

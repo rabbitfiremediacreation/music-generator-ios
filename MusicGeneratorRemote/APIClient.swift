@@ -1,0 +1,88 @@
+import Foundation
+
+enum APIError: LocalizedError {
+    case noServer
+    case http(Int, String)
+
+    var errorDescription: String? {
+        switch self {
+        case .noServer: return "Keine Serveradresse eingestellt."
+        case .http(401, _): return "Zugangsschlüssel fehlt oder ist falsch."
+        case .http(let code, let detail): return detail.isEmpty ? "Fehler \(code)" : detail
+        }
+    }
+}
+
+/// Spricht mit der Web-App des Music Generator auf dem Mac.
+struct APIClient {
+    var baseURL: URL?
+    var token: String
+
+    static var current: APIClient {
+        let d = UserDefaults.standard
+        let raw = (d.string(forKey: "server") ?? Settings.defaultServer).trimmingCharacters(in: .whitespaces)
+        return APIClient(baseURL: URL(string: raw.hasPrefix("http") ? raw : "http://\(raw)"),
+                         token: d.string(forKey: "token") ?? "")
+    }
+
+    /// Header für jede Anfrage, auch fürs Streamen im Player.
+    var headers: [String: String] {
+        var h = ["X-Lang": "de"]
+        if !token.isEmpty { h["Authorization"] = "Bearer \(token)" }
+        return h
+    }
+
+    func url(_ path: String, query: [URLQueryItem] = []) throws -> URL {
+        guard let base = baseURL else { throw APIError.noServer }
+        var c = URLComponents(url: base.appendingPathComponent(path), resolvingAgainstBaseURL: false)!
+        if !query.isEmpty { c.queryItems = query }
+        return c.url!
+    }
+
+    private func send<T: Decodable>(_ method: String, _ path: String, query: [URLQueryItem] = [],
+                                    body: Encodable? = nil) async throws -> T {
+        var req = URLRequest(url: try url(path, query: query), timeoutInterval: 15)
+        req.httpMethod = method
+        headers.forEach { req.setValue($1, forHTTPHeaderField: $0) }
+        if let body {
+            req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            req.httpBody = try JSONEncoder().encode(body)
+        }
+        let (data, resp) = try await URLSession.shared.data(for: req)
+        let code = (resp as? HTTPURLResponse)?.statusCode ?? 0
+        guard (200..<300).contains(code) else {
+            let detail = (try? JSONSerialization.jsonObject(with: data) as? [String: Any])?["detail"] as? String
+            throw APIError.http(code, detail ?? "")
+        }
+        return try JSONDecoder().decode(T.self, from: data)
+    }
+
+    func songs(search: String = "", favorites: Bool = false, folder: String = "") async throws -> [Song] {
+        var q: [URLQueryItem] = []
+        if !search.isEmpty { q.append(.init(name: "q", value: search)) }
+        if favorites { q.append(.init(name: "favorites", value: "true")) }
+        if !folder.isEmpty { q.append(.init(name: "folder", value: folder)) }
+        return try await send("GET", "api/songs", query: q)
+    }
+
+    func folders() async throws -> FolderList { try await send("GET", "api/folders") }
+    func queue() async throws -> QueueState { try await send("GET", "api/queue") }
+
+    func generate(_ r: GenerateRequest) async throws -> GenerateResponse {
+        try await send("POST", "api/generate", body: r)
+    }
+
+    func setFavorite(_ id: String, _ on: Bool) async throws -> Song {
+        struct P: Encodable { let favorite: Bool }
+        return try await send("PATCH", "api/songs/\(id)", body: P(favorite: on))
+    }
+
+    func health() async throws -> [String: AnyDecodable] { try await send("GET", "api/health") }
+
+    func audioURL(_ song: Song) throws -> URL { try url("api/songs/\(song.id)/audio") }
+}
+
+/// Nimmt beliebiges JSON an, wenn nur der Erfolg zählt.
+struct AnyDecodable: Decodable {
+    init(from decoder: Decoder) throws {}
+}
