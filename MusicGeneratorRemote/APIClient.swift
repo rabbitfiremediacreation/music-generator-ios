@@ -21,8 +21,8 @@ struct APIClient {
     static var current: APIClient {
         let d = UserDefaults.standard
         let raw = (d.string(forKey: "server") ?? Settings.defaultServer).trimmingCharacters(in: .whitespaces)
-        return APIClient(baseURL: URL(string: raw.hasPrefix("http") ? raw : "http://\(raw)"),
-                         token: d.string(forKey: "token") ?? "")
+        return APIClient(baseURL: raw.isEmpty ? nil : URL(string: raw.hasPrefix("http") ? raw : "http://\(raw)"),
+                         token: (d.string(forKey: "token") ?? "").trimmingCharacters(in: .whitespaces))
     }
 
     /// Header für jede Anfrage, auch fürs Streamen im Player.

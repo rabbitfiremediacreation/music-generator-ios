@@ -1,8 +1,8 @@
 import SwiftUI
 
 enum Settings {
-    /// Im Simulator erreicht die App den Mac unter 127.0.0.1.
-    static let defaultServer = "http://127.0.0.1:8765"
+    /// Leer, bis die Adresse aus der Web-App eingetragen ist (Setup → Handy-Zugriff).
+    static let defaultServer = ""
 }
 
 struct SettingsView: View {
@@ -17,14 +17,14 @@ struct SettingsView: View {
         NavigationStack {
             Form {
                 Section {
-                    TextField("http://mein-mac.local:8765", text: $server)
+                    TextField("http://mein-mac.local:8766", text: $server)
                         .keyboardType(.URL).textInputAutocapitalization(.never).autocorrectionDisabled()
                     SecureField("Zugangsschlüssel", text: $token)
                         .textInputAutocapitalization(.never).autocorrectionDisabled()
                 } header: {
                     Text("Mac")
                 } footer: {
-                    Text("Adresse und Zugangsschlüssel zeigt der Music Generator auf dem Mac unter Einstellungen → Handy.")
+                    Text("Adresse und Zugangsschlüssel zeigt der Music Generator auf dem Mac unter Setup → Handy-Zugriff.")
                 }
                 Section {
                     Button(action: test) {
