@@ -35,6 +35,16 @@ struct GenerateView: View {
                                      range: 50...200, label: "BPM",
                                      text: { $0 <= 50 ? "AUTO" : String(Int($0)) }, smallText: { $0 <= 50 })
                     }
+                    field("Iterationen") {
+                        BubbleSlider(value: Binding(get: { Double(form.inference_steps) }, set: { form.inference_steps = Int($0) }),
+                                     range: 10...100, step: 5, label: "Iterationen")
+                        Text("Mehr = langsamer, Standard 80.").font(.caption).foregroundStyle(Theme.muted)
+                    }
+                    field("Varianz") {
+                        BubbleSlider(value: $form.lm_temperature, range: 0.3...1.5, step: 0.05, label: "Varianz",
+                                     text: { String(format: "%.2f", $0) })
+                        Text("Niedriger = vorhersehbar, höher = abwechslungsreicher, Standard 0.85.").font(.caption).foregroundStyle(Theme.muted)
+                    }
                     lyrics
                     if let folders = library.folders?.folders, !folders.isEmpty {
                         field("Ordner") {
@@ -45,18 +55,16 @@ struct GenerateView: View {
                             .pickerStyle(.menu).tint(Theme.text)
                         }
                     }
-                    genRow
-                    if let status {
-                        Text(status).font(.footnote).foregroundStyle(failed ? .red : Theme.muted)
-                    }
                 }
                 .padding(18)
                 .background(Theme.panel, in: RoundedRectangle(cornerRadius: 14))
                 .overlay(RoundedRectangle(cornerRadius: 14).stroke(Theme.border))
                 .padding(.horizontal, 12)
-                .padding(.bottom, 24)
+                .padding(.bottom, 12)
             }
             .background(Theme.bg)
+            // Wie die Generieren-Leiste der Web-App: bleibt beim Scrollen immer sichtbar
+            .safeAreaInset(edge: .bottom, spacing: 0) { genBar }
             .navigationTitle("Erzeugen")
             .scrollDismissesKeyboard(.interactively)
         }
@@ -95,18 +103,25 @@ struct GenerateView: View {
         }
     }
 
-    private var genRow: some View {
-        HStack(spacing: 12) {
-            BubbleSlider(value: Binding(get: { Double(form.variants) }, set: { form.variants = Int($0) }),
-                         range: 1...10, label: "Versionen")
-            Button(action: submit) {
-                if sending { ProgressView().tint(Theme.logoText) } else { Text("GENERIEREN") }
+    private var genBar: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 12) {
+                BubbleSlider(value: Binding(get: { Double(form.variants) }, set: { form.variants = Int($0) }),
+                             range: 1...10, label: "Versionen")
+                Button(action: submit) {
+                    if sending { ProgressView().tint(Theme.logoText) } else { Text("GENERIEREN") }
+                }
+                .buttonStyle(AktionButtonStyle(strong: true))
+                .disabled(sending || (form.prompt.isEmpty && form.style.isEmpty))
+                .opacity(form.prompt.isEmpty && form.style.isEmpty ? 0.5 : 1)
             }
-            .buttonStyle(AktionButtonStyle())
-            .disabled(sending || (form.prompt.isEmpty && form.style.isEmpty))
-            .opacity(form.prompt.isEmpty && form.style.isEmpty ? 0.5 : 1)
+            if let status {
+                Text(status).font(.footnote).foregroundStyle(failed ? .red : Theme.muted)
+            }
         }
-        .padding(.top, 6)
+        .padding(.horizontal, 18).padding(.vertical, 12)
+        .background(Theme.panel)
+        .overlay(alignment: .top) { Rectangle().fill(Theme.border).frame(height: 1) }
     }
 
     private func field<C: View>(_ title: String, dice: String? = nil, roll: @escaping () -> Void = {},

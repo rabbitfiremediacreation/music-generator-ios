@@ -98,7 +98,7 @@ struct DiceButton: View {
 
     var body: some View {
         Button {
-            action()
+            withAnimation(.easeOut(duration: 0.25)) { action() }
             withAnimation(.easeOut(duration: 0.35)) { turns += 1 }
         } label: {
             Image(systemName: "die.face.5")
@@ -109,16 +109,20 @@ struct DiceButton: View {
                 .overlay(RoundedRectangle(cornerRadius: 6).stroke(Theme.border))
         }
         .buttonStyle(.plain)
+        .contentShape(Rectangle())
+        .sensoryFeedback(.impact(weight: .light), trigger: turns)
         .accessibilityLabel(label)
     }
 }
 
 /// Knopf wie „Generieren“ in der Web-App: dunkler Verlauf, sandfarbene Schrift.
 struct AktionButtonStyle: ButtonStyle {
+    var strong = false   // Generieren-Leiste: goldener Rand, hellere Schrift
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.system(size: 14, weight: .semibold)).tracking(0.8)
-            .foregroundStyle(Theme.logoText)
+            .foregroundStyle(strong ? Color(hex: 0xf0dcba) : Theme.logoText)
             .shadow(color: .black.opacity(0.65), radius: 1, y: 1)
             .padding(.horizontal, 22)
             .frame(height: 44)
@@ -128,7 +132,7 @@ struct AktionButtonStyle: ButtonStyle {
                                startPoint: .top, endPoint: .bottom),
                 in: RoundedRectangle(cornerRadius: 6)
             )
-            .overlay(RoundedRectangle(cornerRadius: 6).stroke(Theme.border))
+            .overlay(RoundedRectangle(cornerRadius: 6).stroke(strong ? Theme.gold : Theme.border))
             .scaleEffect(configuration.isPressed ? 0.92 : 1)
             .animation(.easeOut(duration: 0.08), value: configuration.isPressed)
     }
