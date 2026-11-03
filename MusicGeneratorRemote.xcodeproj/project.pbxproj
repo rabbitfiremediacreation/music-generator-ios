@@ -19,6 +19,7 @@
 		9D895E124916842AB42095A0 /* MusicGeneratorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048C639019C1C1239B1E98E0 /* MusicGeneratorApp.swift */; };
 		9EE4E31E25FE68BD7BE7582F /* PlayerViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A716B5F4A0E8FDD1C7DD57 /* PlayerViews.swift */; };
 		B0C7DC15564358383DC2ADBA /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2A5CB4D803DAB18B36717E /* Library.swift */; };
+		C3B885E9F6DA81840F46A2BF /* Downloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29F8F4230B5BD569BC5E930 /* Downloads.swift */; };
 		FC31A27677A2CCC755F6EDA5 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236A068B2C23E170F9CF53A8 /* Player.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		8C2A5CB4D803DAB18B36717E /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
 		AF3DC0D7343467E88BACD41E /* SongActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongActions.swift; sourceTree = "<group>"; };
 		AF7D76602CF5A6416241A043 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		B29F8F4230B5BD569BC5E930 /* Downloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloads.swift; sourceTree = "<group>"; };
 		BA6058A505F16E9BB0ABF077 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		BD1B0EFC9B67C78DA1FC5199 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CDDE1392B09E5D9716A82B0C /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
@@ -47,6 +49,7 @@
 				826053B7FFDC1E321275E0EF /* APIClient.swift */,
 				19171EBD549E580EAAB811B7 /* Assets.xcassets */,
 				CDDE1392B09E5D9716A82B0C /* Dice.swift */,
+				B29F8F4230B5BD569BC5E930 /* Downloads.swift */,
 				504FC772ACEAE3EA5318332C /* GenerateView.swift */,
 				BD1B0EFC9B67C78DA1FC5199 /* Info.plist */,
 				8C2A5CB4D803DAB18B36717E /* Library.swift */,
@@ -151,6 +154,7 @@
 			files = (
 				989C0B6F7B44E81AD269BFD0 /* APIClient.swift in Sources */,
 				85250FBEEFD1C7DE26A2F508 /* Dice.swift in Sources */,
+				C3B885E9F6DA81840F46A2BF /* Downloads.swift in Sources */,
 				31A646FA2F938227CB34B43C /* GenerateView.swift in Sources */,
 				B0C7DC15564358383DC2ADBA /* Library.swift in Sources */,
 				61BCA6FF6789FBB02E1918A8 /* LibraryView.swift in Sources */,

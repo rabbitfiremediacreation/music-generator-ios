@@ -32,6 +32,9 @@ targets:
       path: MusicGeneratorRemote/Info.plist
       properties:
         UIBackgroundModes: [audio]
+        # Geladene Songs in der Dateien-App unter „Auf meinem iPhone › Music Generator“
+        UIFileSharingEnabled: true
+        LSSupportsOpeningDocumentsInPlace: true
         # QR-Code aus der Web-App: musicgenerator://connect?server=…&alt=…&token=…
         CFBundleURLTypes:
           - CFBundleURLName: de.alphatester.music-generator-remote

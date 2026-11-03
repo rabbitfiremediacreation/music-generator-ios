@@ -17,8 +17,18 @@ final class Player {
     private var endObserver: NSObjectProtocol?
     private var statusObservation: NSKeyValueObservation?
 
+    /// Lautstärke der App (0…1), unabhängig von den Lautstärketasten; bleibt gespeichert.
+    var volume: Double = UserDefaults.standard.object(forKey: "volume") as? Double ?? 1 {
+        didSet {
+            player.volume = Float(volume)
+            UserDefaults.standard.set(volume, forKey: "volume")
+        }
+    }
+
     init() {
-        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+        // longFormAudio: Musik-App, AirPlay 2 auf Lautsprecher im Netzwerk
+        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, policy: .longFormAudio)
+        player.volume = Float(volume)
         timeObserver = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.5, preferredTimescale: 600),
                                                       queue: .main) { [weak self] t in
             MainActor.assumeIsolated { self?.tick(t.seconds) }
@@ -29,12 +39,15 @@ final class Player {
     /// Spielt `song` und merkt sich die Liste für Weiter/Zurück.
     func play(_ song: Song, in list: [Song]) {
         queue = list.filter(\.isPlayable)
-        guard let url = try? APIClient.current.audioURL(song) else { return }
+        // Aufs iPhone geladene Songs spielen von dort, auch ohne Verbindung zum Mac
+        let local = Downloads.shared.localURL(song)
+        guard let url = local ?? (try? APIClient.current.audioURL(song)) else { return }
         current = song
         error = nil
         position = 0
         duration = song.duration ?? 0
-        let asset = AVURLAsset(url: url, options: ["AVURLAssetHTTPHeaderFieldsKey": APIClient.current.headers])
+        let asset = local != nil ? AVURLAsset(url: url)
+            : AVURLAsset(url: url, options: ["AVURLAssetHTTPHeaderFieldsKey": APIClient.current.headers])
         let item = AVPlayerItem(asset: asset)
         statusObservation = item.observe(\.status) { [weak self] item, _ in
             let message = item.status == .failed ? (item.error?.localizedDescription ?? "Wiedergabe fehlgeschlagen") : nil

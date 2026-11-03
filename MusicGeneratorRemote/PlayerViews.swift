@@ -73,6 +73,15 @@ struct FullPlayer: View {
                 }
                 .font(.title)
                 .foregroundStyle(Theme.text)
+                VolumeBar()
+                HStack(spacing: 12) {
+                    AirPlayButton()
+                        .frame(width: 54, height: 40)
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(Theme.border))
+                        .accessibilityLabel("Auf Gerät im Netzwerk abspielen")
+                    DownloadButton(song: song)
+                    ShareButton(song: song)
+                }
                 if let error = player.error { Text(error).foregroundStyle(.red).font(.footnote) }
                 if let lyrics = song.visibleLyrics {
                     ScrollView {
