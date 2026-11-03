@@ -11,6 +11,9 @@ struct GenerateView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
+                BrandHeader()
+                    .padding(.leading, 12).padding(.trailing, 34)
+                    .padding(.top, 8).padding(.bottom, 14)
                 VStack(alignment: .leading, spacing: 18) {
                     field("Titel", dice: "Zufälligen Titel würfeln", roll: { form.title = Dice.title() }) {
                         TextField("optional", text: $form.title).modifier(InputStyle())
@@ -67,6 +70,7 @@ struct GenerateView: View {
             // Wie die Generieren-Leiste der Web-App: bleibt beim Scrollen immer sichtbar
             .safeAreaInset(edge: .bottom, spacing: 0) { genBar }
             .navigationTitle("Erzeugen")
+            .toolbar(.hidden, for: .navigationBar)   // statt Titel steht oben der Kopf der Web-App
             .scrollDismissesKeyboard(.interactively)
         }
     }

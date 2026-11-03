@@ -142,6 +142,57 @@ private struct SliderTouchArea: UIViewRepresentable {
     }
 }
 
+/// Kopf der Web-App auf zwei Zeilen: Logo und Alphatester-Wortmarke, darunter MUSIC GENERATOR.
+struct BrandHeader: View {
+    private let h: CGFloat = 56
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 10) {
+                Logo().frame(width: h, height: h)
+                Image("Alphatester")
+                    .resizable().scaledToFit()
+                    .frame(height: h)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.border))
+                    .accessibilityLabel("Alphatester")
+            }
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                Text("MUSIC").font(.system(size: 30, weight: .semibold)).tracking(3.7)
+                Text("GENERATOR").font(.system(size: 30, weight: .semibold)).tracking(2)
+            }
+            .foregroundStyle(Theme.muted)
+            .lineLimit(1).minimumScaleFactor(0.6)
+            .accessibilityElement(children: .combine)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+/// Logo der Web-App (static/favicon.svg): dunkler Verlauf, sechs sandfarbene Balken.
+struct Logo: View {
+    private let bars: [(x: CGFloat, y: CGFloat, h: CGFloat)] = [(16, 36, 12), (25, 28, 28), (34, 20, 44), (43, 30, 24), (52, 24, 36), (61, 34, 16)]
+
+    var body: some View {
+        GeometryReader { geo in
+            let s = geo.size.width / 84
+            ZStack(alignment: .topLeading) {
+                RoundedRectangle(cornerRadius: 14 * s)
+                    .fill(LinearGradient(colors: [Color(hex: 0x434445), Color(hex: 0x2b2c2c)], startPoint: .top, endPoint: .bottom))
+                    .overlay(RoundedRectangle(cornerRadius: 14 * s).stroke(Theme.border))
+                ForEach(bars.indices, id: \.self) { i in
+                    let b = bars[i]
+                    Capsule().fill(Theme.logoText)
+                        .frame(width: 5 * s, height: b.h * s)
+                        .offset(x: b.x * s, y: b.y * s)
+                }
+            }
+        }
+        .aspectRatio(1, contentMode: .fit)
+        .accessibilityHidden(true)
+    }
+}
+
 /// Würfel-Knopf wie in der Web-App: umrandetes Kästchen, dreht sich beim Würfeln.
 struct DiceButton: View {
     let label: String
