@@ -52,6 +52,12 @@ final class Player {
         updateNowPlaying()
     }
 
+    /// Übernimmt eine geänderte Fassung (Favorit, Ordner), ohne die Wiedergabe anzufassen.
+    func refresh(_ song: Song) {
+        if current?.id == song.id { current = song }
+        if let i = queue.firstIndex(where: { $0.id == song.id }) { queue[i] = song }
+    }
+
     func toggle() {
         guard current != nil else { return }
         if isPlaying { player.pause() } else { player.play() }

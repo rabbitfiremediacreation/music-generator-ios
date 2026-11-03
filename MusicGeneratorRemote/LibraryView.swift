@@ -3,14 +3,16 @@ import SwiftUI
 struct LibraryView: View {
     @Environment(Library.self) private var library
     @Environment(Player.self) private var player
+    @State private var newFolderFor: Song?
 
     var body: some View {
         @Bindable var library = library
         NavigationStack {
             List {
-                if library.busy { QueueRow() }
+                if library.busy { QueueRow().listRowBackground(Theme.panel) }
                 if let error = library.error {
                     Label(error, systemImage: "exclamationmark.triangle").foregroundStyle(.red)
+                        .listRowBackground(Theme.bg)
                 }
                 ForEach(library.songs) { song in
                     SongRow(song: song)
@@ -19,8 +21,17 @@ struct LibraryView: View {
                         .swipeActions(edge: .leading) {
                             Button { Task { await library.toggleFavorite(song) } } label: {
                                 Label("Favorit", systemImage: song.favorite ? "star.slash" : "star")
-                            }.tint(.yellow)
+                            }.tint(Theme.gold)
                         }
+                        .contextMenu {
+                            Button { Task { await library.toggleFavorite(song) } } label: {
+                                Label(song.favorite ? "Favorit entfernen" : "Favorit", systemImage: song.favorite ? "star.slash" : "star")
+                            }
+                            Menu { FolderMenuItems(song: song, newFolderFor: $newFolderFor) } label: {
+                                Label("In Ordner verschieben", systemImage: "folder")
+                            }
+                        }
+                        .listRowBackground(Theme.bg)
                 }
                 if library.songs.isEmpty && library.error == nil && !library.loading {
                     ContentUnavailableView("Keine Songs", systemImage: "music.note",
@@ -28,6 +39,9 @@ struct LibraryView: View {
                 }
             }
             .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .background(Theme.bg)
+            .newFolderAlert(for: $newFolderFor)
             .navigationTitle("Bibliothek")
             .searchable(text: $library.search, prompt: "Suchen")
             .onSubmit(of: .search) { Task { await library.reload() } }
@@ -68,7 +82,7 @@ private struct QueueRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            ProgressView()
+            ProgressView().tint(Theme.gold)
             VStack(alignment: .leading) {
                 if let r = library.queue?.running.first {
                     Text("Wird erzeugt: \(r.message ?? "")").font(.subheadline.bold())
@@ -91,14 +105,14 @@ private struct SongRow: View {
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .font(.title3)
-                .foregroundStyle(player.current?.id == song.id ? Color.orange : .secondary)
+                .foregroundStyle(player.current?.id == song.id ? Theme.gold : Theme.muted)
                 .frame(width: 28)
             VStack(alignment: .leading, spacing: 2) {
-                Text(song.displayTitle).lineLimit(1)
-                Text(subtitle).font(.caption).foregroundStyle(.secondary).lineLimit(1)
+                Text(song.displayTitle).lineLimit(1).foregroundStyle(Theme.text)
+                Text(subtitle).font(.caption).foregroundStyle(Theme.muted).lineLimit(1)
             }
             Spacer()
-            if song.favorite { Image(systemName: "star.fill").foregroundStyle(.yellow).font(.caption) }
+            if song.isPlayable { StarButton(song: song, size: 18).frame(width: 36, height: 36) }
         }
         .opacity(song.isPlayable ? 1 : 0.5)
     }

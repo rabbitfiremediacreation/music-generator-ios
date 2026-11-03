@@ -40,10 +40,43 @@ final class Library {
 
     var busy: Bool { (queue?.running.isEmpty == false) || (queue?.queued ?? 0) > 0 }
 
+    /// Wird nach jeder Änderung an einem Song aufgerufen, damit der Player die neue Fassung übernimmt.
+    var onSongChanged: (Song) -> Void = { _ in }
+
     func toggleFavorite(_ song: Song) async {
+        await change { try await APIClient.current.setFavorite(song.id, !song.favorite) }
+    }
+
+    func move(_ song: Song, to folder: String?) async {
+        await change { try await APIClient.current.setFolder(song.id, folder) }
+        // Passt der Song nicht mehr zum Ordnerfilter, verschwindet er aus der Liste
+        if !self.folder.isEmpty, (folder ?? "none") != self.folder { songs.removeAll { $0.id == song.id } }
+        folders = try? await APIClient.current.folders()
+    }
+
+    /// Legt einen Ordner an und verschiebt den Song hinein.
+    func moveToNewFolder(_ song: Song, name: String) async {
+        let name = name.trimmingCharacters(in: .whitespaces)
+        guard !name.isEmpty else { return }
         do {
-            let updated = try await APIClient.current.setFavorite(song.id, !song.favorite)
-            if let i = songs.firstIndex(where: { $0.id == song.id }) { songs[i].favorite = updated.favorite }
+            let f = try await APIClient.current.createFolder(name)
+            await move(song, to: f.id)
+        } catch {
+            self.error = error.localizedDescription
+        }
+    }
+
+    func folderName(_ id: String?) -> String {
+        guard let id else { return "Unsortiert" }
+        return folders?.folders.first { $0.id == id }?.name ?? "Unsortiert"
+    }
+
+    private func change(_ call: () async throws -> Song) async {
+        do {
+            let updated = try await call()
+            if let i = songs.firstIndex(where: { $0.id == updated.id }) { songs[i] = updated }
+            onSongChanged(updated)
+            error = nil
         } catch {
             self.error = error.localizedDescription
         }

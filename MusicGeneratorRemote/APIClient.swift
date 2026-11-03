@@ -77,6 +77,26 @@ struct APIClient {
         return try await send("PATCH", "api/songs/\(id)", body: P(favorite: on))
     }
 
+    /// Verschiebt einen Song; `nil` = unsortiert.
+    func setFolder(_ id: String, _ folder: String?) async throws -> Song {
+        struct P: Encodable {
+            let folder_id: String?
+            func encode(to e: Encoder) throws {   // null mitschicken, sonst ignoriert der Server das Feld
+                var c = e.container(keyedBy: CodingKeys.self)
+                try c.encode(folder_id, forKey: .folder_id)
+            }
+            enum CodingKeys: String, CodingKey { case folder_id }
+        }
+        return try await send("PATCH", "api/songs/\(id)", body: P(folder_id: folder))
+    }
+
+    func createFolder(_ name: String) async throws -> Folder {
+        struct P: Encodable { let name: String }
+        struct R: Decodable { let id: String; let name: String }
+        let r: R = try await send("POST", "api/folders", body: P(name: name))
+        return Folder(id: r.id, name: r.name, count: 0)
+    }
+
     func health() async throws -> [String: AnyDecodable] { try await send("GET", "api/health") }
 
     func audioURL(_ song: Song) throws -> URL { try url("api/songs/\(song.id)/audio") }

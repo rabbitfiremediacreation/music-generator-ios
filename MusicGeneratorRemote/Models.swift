@@ -64,6 +64,7 @@ struct GenerateRequest: Encodable {
     var instrumental = true
     var title = ""
     var duration: Double = 90
+    var bpm: Double = 0        // 0 = Auto, das Modell wählt das Tempo
     var vocal_language = "en"
     var variants = 2
     var folder_id: String?

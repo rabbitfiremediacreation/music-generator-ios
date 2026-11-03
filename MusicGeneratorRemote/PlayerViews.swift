@@ -8,15 +8,17 @@ struct MiniPlayer: View {
 
     var body: some View {
         if let song = player.current {
-            let row = HStack(spacing: 14) {
-                Image(systemName: "waveform").foregroundStyle(.orange)
+            let row = HStack(spacing: 16) {
+                Image(systemName: "waveform").foregroundStyle(Theme.gold)
                 Text(song.displayTitle).lineLimit(1)
                 Spacer()
+                StarButton(song: song, size: 17)
                 Button { player.toggle() } label: {
                     Image(systemName: player.isPlaying ? "pause.fill" : "play.fill").font(.title3)
                 }
                 Button { player.next() } label: { Image(systemName: "forward.fill") }
             }
+            .foregroundStyle(Theme.text)
             .padding(.horizontal)
             .contentShape(Rectangle())
             .onTapGesture(perform: open)
@@ -36,51 +38,77 @@ struct MiniPlayer: View {
 
 struct FullPlayer: View {
     @Environment(Player.self) private var player
+    @Environment(Library.self) private var library
     @State private var scrubbing: Double?
+    @State private var newFolderFor: Song?
 
     var body: some View {
-        VStack(spacing: 24) {
-            Capsule().fill(.secondary).frame(width: 40, height: 5).padding(.top, 8)
+        VStack(spacing: 22) {
+            Capsule().fill(Theme.border).frame(width: 40, height: 5).padding(.top, 8)
             if let song = player.current {
                 Image(systemName: "waveform.circle.fill")
-                    .resizable().scaledToFit().frame(width: 160)
-                    .foregroundStyle(.orange.gradient)
-                    .padding(.top, 24)
+                    .resizable().scaledToFit().frame(width: 150)
+                    .foregroundStyle(Theme.brand.gradient)
+                    .padding(.top, 16)
                 VStack(spacing: 6) {
                     Text(song.displayTitle).font(.title2.bold()).multilineTextAlignment(.center)
                     if song.title?.isEmpty == false {
-                        Text(song.caption).font(.subheadline).foregroundStyle(.secondary)
+                        Text(song.caption).font(.subheadline).foregroundStyle(Theme.muted)
                             .multilineTextAlignment(.center).lineLimit(3)
                     }
                 }
-                VStack(spacing: 4) {
-                    Slider(value: Binding(get: { scrubbing ?? player.position }, set: { scrubbing = $0 }),
-                           in: 0...max(player.duration, 1)) { editing in
-                        if !editing, let s = scrubbing { player.seek(to: s); scrubbing = nil }
-                    }
-                    HStack {
-                        Text(formatTime(scrubbing ?? player.position))
-                        Spacer()
-                        Text(formatTime(player.duration))
-                    }.font(.caption.monospacedDigit()).foregroundStyle(.secondary)
+                rating(song)
+                BubbleSlider(value: Binding(get: { scrubbing ?? player.position }, set: { scrubbing = $0 }),
+                             range: 0...max(player.duration, 1), label: "Position",
+                             text: { formatTime($0) }) { editing in
+                    if !editing, let s = scrubbing { player.seek(to: s); scrubbing = nil }
                 }
                 HStack(spacing: 48) {
                     Button { player.previous() } label: { Image(systemName: "backward.fill") }
                     Button { player.toggle() } label: {
-                        Image(systemName: player.isPlaying ? "pause.circle.fill" : "play.circle.fill").font(.system(size: 64))
+                        Image(systemName: player.isPlaying ? "pause.circle.fill" : "play.circle.fill")
+                            .font(.system(size: 66)).foregroundStyle(Theme.logoText)
                     }
                     Button { player.next() } label: { Image(systemName: "forward.fill") }
                 }
                 .font(.title)
+                .foregroundStyle(Theme.text)
                 if let error = player.error { Text(error).foregroundStyle(.red).font(.footnote) }
                 if let lyrics = song.visibleLyrics {
-                    ScrollView { Text(lyrics).font(.callout).frame(maxWidth: .infinity, alignment: .leading) }
+                    ScrollView {
+                        Text(lyrics).font(.callout).foregroundStyle(Theme.muted)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
                 } else {
                     Spacer()
                 }
             }
         }
         .padding(.horizontal, 24)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Theme.bg)
         .presentationDragIndicator(.hidden)
+        .newFolderAlert(for: $newFolderFor)
+    }
+
+    /// Stern und Ordner nebeneinander: beim Hören gleich sortieren.
+    private func rating(_ song: Song) -> some View {
+        HStack(spacing: 12) {
+            StarButton(song: song, size: 26)
+                .frame(width: 54, height: 40)
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(song.favorite ? Theme.gold : Theme.border))
+            Menu {
+                FolderMenuItems(song: song, newFolderFor: $newFolderFor)
+            } label: {
+                Label(library.folderName(song.folder_id), systemImage: "folder")
+                    .lineLimit(1)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Theme.text)
+                    .padding(.horizontal, 14)
+                    .frame(height: 40)
+                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Theme.border))
+            }
+            .accessibilityLabel("Ordner: \(library.folderName(song.folder_id)), verschieben")
+        }
     }
 }

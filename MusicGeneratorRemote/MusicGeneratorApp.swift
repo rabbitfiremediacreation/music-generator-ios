@@ -25,9 +25,11 @@ struct MusicGeneratorApp: App {
             .modifier(PlayerBar(showPlayer: $showPlayer))
             .sheet(isPresented: $showPlayer) { FullPlayer() }
             .onOpenURL { url in Task { await connect(url) } }
+            .onAppear { library.onSongChanged = { [player] in player.refresh($0) } }
             .environment(player)
             .environment(library)
-            .tint(.orange)
+            .tint(Theme.brand)
+            .preferredColorScheme(.dark)
         }
     }
 
