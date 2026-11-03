@@ -97,6 +97,26 @@ struct APIClient {
         return Folder(id: r.id, name: r.name, count: 0)
     }
 
+    /// Schickt eine Aufnahme an die Analyse des Modells (Beschreibung, Tempo, Tonart, Takt).
+    func analyze(wav: Data) async throws -> AnalyzeResult {
+        let boundary = "mg-\(UUID().uuidString)"
+        var body = Data()
+        body.append(Data("--\(boundary)\r\nContent-Disposition: form-data; name=\"audio\"; filename=\"Aufnahme.wav\"\r\nContent-Type: audio/wav\r\n\r\n".utf8))
+        body.append(wav)
+        body.append(Data("\r\n--\(boundary)--\r\n".utf8))
+        var req = URLRequest(url: try url("api/analyze"), timeoutInterval: 180)   // die Analyse dauert eine Weile
+        req.httpMethod = "POST"
+        headers.forEach { req.setValue($1, forHTTPHeaderField: $0) }
+        req.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        let (data, resp) = try await URLSession.shared.upload(for: req, from: body)
+        let code = (resp as? HTTPURLResponse)?.statusCode ?? 0
+        guard (200..<300).contains(code) else {
+            let detail = (try? JSONSerialization.jsonObject(with: data) as? [String: Any])?["detail"] as? String
+            throw APIError.http(code, detail ?? "")
+        }
+        return try JSONDecoder().decode(AnalyzeResult.self, from: data)
+    }
+
     func health() async throws -> [String: AnyDecodable] { try await send("GET", "api/health") }
 
     func audioURL(_ song: Song) throws -> URL { try url("api/songs/\(song.id)/audio") }

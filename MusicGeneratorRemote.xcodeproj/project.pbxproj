@@ -20,6 +20,8 @@
 		9EE4E31E25FE68BD7BE7582F /* PlayerViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A716B5F4A0E8FDD1C7DD57 /* PlayerViews.swift */; };
 		B0C7DC15564358383DC2ADBA /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2A5CB4D803DAB18B36717E /* Library.swift */; };
 		C3B885E9F6DA81840F46A2BF /* Downloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29F8F4230B5BD569BC5E930 /* Downloads.swift */; };
+		C52528CE8FA8278D9636AB25 /* IdeaRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0775FD8FF18DCA3C74FEE9 /* IdeaRecorder.swift */; };
+		F55968EDADFF3BAAB34FE663 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A7F39302600A495F5D21AD /* RecordButton.swift */; };
 		FC31A27677A2CCC755F6EDA5 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236A068B2C23E170F9CF53A8 /* Player.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,8 +30,10 @@
 		19171EBD549E580EAAB811B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		236A068B2C23E170F9CF53A8 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		31FEE887E55088F4E523A969 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		4D0775FD8FF18DCA3C74FEE9 /* IdeaRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdeaRecorder.swift; sourceTree = "<group>"; };
 		504FC772ACEAE3EA5318332C /* GenerateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateView.swift; sourceTree = "<group>"; };
 		63A716B5F4A0E8FDD1C7DD57 /* PlayerViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViews.swift; sourceTree = "<group>"; };
+		68A7F39302600A495F5D21AD /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		6CC30B5A87315046FCE30F53 /* MusicGeneratorRemote.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MusicGeneratorRemote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		826053B7FFDC1E321275E0EF /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		85A45C891B891CCB34FDB7AC /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -51,6 +55,7 @@
 				CDDE1392B09E5D9716A82B0C /* Dice.swift */,
 				B29F8F4230B5BD569BC5E930 /* Downloads.swift */,
 				504FC772ACEAE3EA5318332C /* GenerateView.swift */,
+				4D0775FD8FF18DCA3C74FEE9 /* IdeaRecorder.swift */,
 				BD1B0EFC9B67C78DA1FC5199 /* Info.plist */,
 				8C2A5CB4D803DAB18B36717E /* Library.swift */,
 				31FEE887E55088F4E523A969 /* LibraryView.swift */,
@@ -58,6 +63,7 @@
 				048C639019C1C1239B1E98E0 /* MusicGeneratorApp.swift */,
 				236A068B2C23E170F9CF53A8 /* Player.swift */,
 				63A716B5F4A0E8FDD1C7DD57 /* PlayerViews.swift */,
+				68A7F39302600A495F5D21AD /* RecordButton.swift */,
 				BA6058A505F16E9BB0ABF077 /* SettingsView.swift */,
 				AF3DC0D7343467E88BACD41E /* SongActions.swift */,
 				85A45C891B891CCB34FDB7AC /* Theme.swift */,
@@ -156,12 +162,14 @@
 				85250FBEEFD1C7DE26A2F508 /* Dice.swift in Sources */,
 				C3B885E9F6DA81840F46A2BF /* Downloads.swift in Sources */,
 				31A646FA2F938227CB34B43C /* GenerateView.swift in Sources */,
+				C52528CE8FA8278D9636AB25 /* IdeaRecorder.swift in Sources */,
 				B0C7DC15564358383DC2ADBA /* Library.swift in Sources */,
 				61BCA6FF6789FBB02E1918A8 /* LibraryView.swift in Sources */,
 				1E0FA8FA5943DA426C400BCA /* Models.swift in Sources */,
 				9D895E124916842AB42095A0 /* MusicGeneratorApp.swift in Sources */,
 				FC31A27677A2CCC755F6EDA5 /* Player.swift in Sources */,
 				9EE4E31E25FE68BD7BE7582F /* PlayerViews.swift in Sources */,
+				F55968EDADFF3BAAB34FE663 /* RecordButton.swift in Sources */,
 				90CB8F72C81B2E4648CAD02D /* SettingsView.swift in Sources */,
 				1DE59851B5648537123503CB /* SongActions.swift in Sources */,
 				4D30A2B62735689597B33CD0 /* Theme.swift in Sources */,
@@ -240,6 +248,7 @@
 				INFOPLIST_FILE = MusicGeneratorRemote/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Music Generator";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Die App verbindet sich mit dem Music Generator auf deinem Mac im Heimnetz.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Für den Ideengeber: Du summst, pfeifst oder singst eine Idee, daraus werden Beschreibung, Tempo und Tonart für den Song.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -329,6 +338,7 @@
 				INFOPLIST_FILE = MusicGeneratorRemote/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Music Generator";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Die App verbindet sich mit dem Music Generator auf deinem Mac im Heimnetz.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Für den Ideengeber: Du summst, pfeifst oder singst eine Idee, daraus werden Beschreibung, Tempo und Tonart für den Song.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (

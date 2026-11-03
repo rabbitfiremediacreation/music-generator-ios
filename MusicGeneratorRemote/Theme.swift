@@ -143,7 +143,8 @@ private struct SliderTouchArea: UIViewRepresentable {
 }
 
 /// Kopf der Web-App auf zwei Zeilen: Logo und Alphatester-Wortmarke, darunter MUSIC GENERATOR.
-struct BrandHeader: View {
+struct BrandHeader<Trailing: View>: View {
+    @ViewBuilder var trailing: () -> Trailing   // rechts neben MUSIC GENERATOR, z. B. der Aufnahmeknopf
     private let h: CGFloat = 56
 
     var body: some View {
@@ -157,13 +158,17 @@ struct BrandHeader: View {
                     .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.border))
                     .accessibilityLabel("Alphatester")
             }
-            HStack(alignment: .firstTextBaseline, spacing: 10) {
-                Text("MUSIC").font(.system(size: 30, weight: .semibold)).tracking(3.7)
-                Text("GENERATOR").font(.system(size: 30, weight: .semibold)).tracking(2)
+            HStack(spacing: 10) {
+                HStack(alignment: .firstTextBaseline, spacing: 10) {
+                    Text("MUSIC").font(.system(size: 30, weight: .semibold)).tracking(3.7)
+                    Text("GENERATOR").font(.system(size: 30, weight: .semibold)).tracking(2)
+                }
+                .foregroundStyle(Theme.muted)
+                .lineLimit(1).minimumScaleFactor(0.6)
+                .accessibilityElement(children: .combine)
+                Spacer(minLength: 0)
+                trailing()
             }
-            .foregroundStyle(Theme.muted)
-            .lineLimit(1).minimumScaleFactor(0.6)
-            .accessibilityElement(children: .combine)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

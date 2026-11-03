@@ -25,6 +25,7 @@ targets:
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
         INFOPLIST_KEY_NSLocalNetworkUsageDescription: "Die App verbindet sich mit dem Music Generator auf deinem Mac im Heimnetz."
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "Für den Ideengeber: Du summst, pfeifst oder singst eine Idee, daraus werden Beschreibung, Tempo und Tonart für den Song."
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: TEAMID   # Lee Esposito (Personal Team), App läuft 7 Tage

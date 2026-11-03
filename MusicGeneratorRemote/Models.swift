@@ -65,6 +65,8 @@ struct GenerateRequest: Encodable {
     var title = ""
     var duration: Double = 90
     var bpm: Double = 0        // 0 = Auto, das Modell wählt das Tempo
+    var keyscale = ""          // Tonart, "" = Auto; kommt aus der Aufnahme
+    var timesignature = ""     // Takt, "" = Auto; kommt aus der Aufnahme
     var inference_steps = 80   // Iterationen, App-Standard wie in der Web-App
     var lm_temperature = 0.85  // Varianz
     var vocal_language = "en"

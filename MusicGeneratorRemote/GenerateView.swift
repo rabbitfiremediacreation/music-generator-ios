@@ -3,7 +3,9 @@ import SwiftUI
 /// Formular wie in der Web-App: Felder mit Würfeln, Balken-Regler, unten Versionen und „Generieren“.
 struct GenerateView: View {
     @Environment(Library.self) private var library
+    @Environment(Player.self) private var player
     @State private var form = GenerateRequest()
+    @State private var recorder = IdeaRecorder()
     @State private var sending = false
     @State private var status: String?
     @State private var failed = false
@@ -11,9 +13,14 @@ struct GenerateView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                BrandHeader()
+                BrandHeader { RecordButton(recorder: recorder) }
                     .padding(.leading, 12).padding(.trailing, 34)
-                    .padding(.top, 8).padding(.bottom, 14)
+                    .padding(.top, 8).padding(.bottom, recorder.message == nil ? 14 : 6)
+                if let msg = recorder.message {
+                    Text(msg).font(.footnote).foregroundStyle(recorder.failed ? Color(hex: 0xff6b6b) : Theme.gold)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 12).padding(.trailing, 34).padding(.bottom, 12)
+                }
                 VStack(alignment: .leading, spacing: 18) {
                     field("Titel", dice: "Zufälligen Titel würfeln", roll: { form.title = Dice.title() }) {
                         TextField("optional", text: $form.title).modifier(InputStyle())
@@ -37,6 +44,20 @@ struct GenerateView: View {
                         BubbleSlider(value: Binding(get: { form.bpm == 0 ? 50 : form.bpm }, set: { form.bpm = $0 <= 50 ? 0 : $0 }),
                                      range: 50...200, label: "BPM",
                                      text: { $0 <= 50 ? "AUTO" : String(Int($0)) }, smallText: { $0 <= 50 })
+                        // Tonart und Takt kommen aus einer Aufnahme; ✕ stellt wieder auf Auto
+                        if !form.keyscale.isEmpty || !form.timesignature.isEmpty {
+                            HStack(spacing: 8) {
+                                Text([form.keyscale.isEmpty ? nil : "Tonart \(form.keyscale)",
+                                      form.timesignature.isEmpty ? nil : "Takt \(form.timesignature)"]
+                                    .compactMap { $0 }.joined(separator: " · "))
+                                    .font(.caption).foregroundStyle(Theme.gold)
+                                Button { form.keyscale = ""; form.timesignature = "" } label: {
+                                    Image(systemName: "xmark.circle.fill").foregroundStyle(Theme.muted)
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel("Tonart und Takt auf Auto")
+                            }
+                        }
                     }
                     field("Iterationen") {
                         BubbleSlider(value: Binding(get: { Double(form.inference_steps) }, set: { form.inference_steps = Int($0) }),
@@ -69,6 +90,10 @@ struct GenerateView: View {
             .background(Theme.bg)
             // Wie die Generieren-Leiste der Web-App: bleibt beim Scrollen immer sichtbar
             .safeAreaInset(edge: .bottom, spacing: 0) { genBar }
+            .onAppear { recorder.onResult = { r, idea in applyIdea(r, idea) } }
+            .onChange(of: recorder.phase) { _, phase in
+                if phase == .recording && player.isPlaying { player.toggle() }   // Musik würde mit aufgenommen
+            }
             .navigationTitle("Erzeugen")
             .toolbar(.hidden, for: .navigationBar)   // statt Titel steht oben der Kopf der Web-App
             .scrollDismissesKeyboard(.interactively)
@@ -139,6 +164,25 @@ struct GenerateView: View {
             }
             content()
         }
+    }
+
+    /// Ergebnis einer Aufnahme ins Formular, wie in der Web-App: Beschreibung, Titel, Tempo, Tonart, Takt.
+    /// Stil und Länge bleiben, wie sie sind.
+    private func applyIdea(_ r: AnalyzeResult, _ idea: MelodyIdea) {
+        form.prompt = idea.describe(caption: r.caption, key: r.keyscale)
+        form.title = Dice.title()
+        if r.hasVocals {
+            // nicht den erkannten Text übernehmen, sondern wie beim Lyrics-Würfel das Modell schreiben lassen
+            form.instrumental = false
+            form.lyrics = ""
+            let lang = r.vocal_language.lowercased()
+            if vocalLanguages.contains(where: { $0.code == lang }) { form.vocal_language = lang }
+        } else {
+            form.instrumental = true
+        }
+        if r.bpm > 0 { form.bpm = min(max(r.bpm.rounded(), 51), 200) }
+        form.keyscale = r.keyscale
+        form.timesignature = r.timesignature
     }
 
     private func submit() {
