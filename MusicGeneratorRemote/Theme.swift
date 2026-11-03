@@ -58,16 +58,29 @@ struct BubbleSlider: View {
                     .offset(x: x)
             }
             .frame(maxHeight: .infinity)
-            .contentShape(Rectangle())
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { g in
-                        if !dragging { dragging = true; onEditingChanged(true) }
-                        let w = max(geo.size.width - knob, 1)
-                        let q = min(max((g.location.x - knob / 2) / w, 0), 1)
-                        value = snap(range.lowerBound + q * span)
+            // Senkrechtes Wischen bleibt beim Scrollen und verstellt nichts,
+            // waagerechtes Ziehen verstellt, Antippen springt an die Stelle.
+            .overlay(
+                SliderTouchArea(
+                    onTap: { x in
+                        onEditingChanged(true)
+                        value = position(x, width: geo.size.width)
+                        onEditingChanged(false)
+                    },
+                    onDrag: { x, state in
+                        switch state {
+                        case .began:
+                            dragging = true
+                            onEditingChanged(true)
+                            value = position(x, width: geo.size.width)
+                        case .changed:
+                            value = position(x, width: geo.size.width)
+                        default:
+                            dragging = false
+                            onEditingChanged(false)
+                        }
                     }
-                    .onEnded { _ in dragging = false; onEditingChanged(false) }
+                )
             )
         }
         .frame(height: knob)
@@ -84,9 +97,48 @@ struct BubbleSlider: View {
         }
     }
 
+    private func position(_ x: CGFloat, width: CGFloat) -> Double {
+        let q = min(max((x - knob / 2) / max(width - knob, 1), 0), 1)
+        return snap(range.lowerBound + q * (range.upperBound - range.lowerBound))
+    }
+
     private func snap(_ v: Double) -> Double {
         let s = ((v - range.lowerBound) / step).rounded() * step + range.lowerBound
         return min(max(s, range.lowerBound), range.upperBound)
+    }
+}
+
+/// Berührungsfläche der Regler. Mit UIKit, weil nur so ein senkrechtes Wischen sauber an die
+/// umgebende ScrollView geht: Der Zieh-Erkenner startet nur, wenn die Bewegung eher waagerecht ist.
+private struct SliderTouchArea: UIViewRepresentable {
+    var onTap: (CGFloat) -> Void
+    var onDrag: (CGFloat, UIGestureRecognizer.State) -> Void
+
+    func makeUIView(context: Context) -> UIView {
+        let v = UIView()
+        v.backgroundColor = .clear
+        let pan = UIPanGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.pan(_:)))
+        pan.delegate = context.coordinator
+        v.addGestureRecognizer(pan)
+        v.addGestureRecognizer(UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.tap(_:))))
+        return v
+    }
+
+    func updateUIView(_ v: UIView, context: Context) { context.coordinator.parent = self }
+    func makeCoordinator() -> Coordinator { Coordinator(self) }
+
+    final class Coordinator: NSObject, UIGestureRecognizerDelegate {
+        var parent: SliderTouchArea
+        init(_ parent: SliderTouchArea) { self.parent = parent }
+
+        @objc func tap(_ g: UITapGestureRecognizer) { parent.onTap(g.location(in: g.view).x) }
+        @objc func pan(_ g: UIPanGestureRecognizer) { parent.onDrag(g.location(in: g.view).x, g.state) }
+
+        func gestureRecognizerShouldBegin(_ g: UIGestureRecognizer) -> Bool {
+            guard let pan = g as? UIPanGestureRecognizer else { return true }
+            let v = pan.velocity(in: pan.view)
+            return abs(v.x) > abs(v.y)
+        }
     }
 }
 

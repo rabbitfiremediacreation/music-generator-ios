@@ -59,7 +59,8 @@ struct GenerateView: View {
                 .padding(18)
                 .background(Theme.panel, in: RoundedRectangle(cornerRadius: 14))
                 .overlay(RoundedRectangle(cornerRadius: 14).stroke(Theme.border))
-                .padding(.horizontal, 12)
+                .padding(.leading, 12)
+                .padding(.trailing, 34)   // freier Streifen rechts zum Scrollen
                 .padding(.bottom, 12)
             }
             .background(Theme.bg)
